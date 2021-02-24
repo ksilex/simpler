@@ -22,6 +22,14 @@ module Simpler
       @response.finish
     end
 
+    def status(code)
+      @response.status = code
+    end
+
+    def headers
+      @response.headers
+    end
+
     private
 
     def extract_name
@@ -43,7 +51,7 @@ module Simpler
     end
 
     def params
-      @request.params
+      @request.env['simpler.params'].merge!(@request.params)
     end
 
     def render(template)

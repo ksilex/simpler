@@ -12,7 +12,7 @@ module Simpler
     end
 
     def render(binding)
-      return send template&.keys&.first, template&.values&.first if template&.keys
+      return send template.keys.first, template.values.first if template&.keys
 
       template = File.read(template_path)
       ERB.new(template).result(binding)

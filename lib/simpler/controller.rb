@@ -1,3 +1,4 @@
+require 'json'
 require_relative 'view'
 
 module Simpler
@@ -47,7 +48,7 @@ module Simpler
     end
 
     def render_body
-      View.new(@request.env).render(binding)
+      View.new(@request.env, @response).render(binding)
     end
 
     def params
@@ -57,6 +58,5 @@ module Simpler
     def render(template)
       @request.env['simpler.template'] = template
     end
-
   end
 end

@@ -18,8 +18,10 @@ module Simpler
     def route_for(env)
       method = env['REQUEST_METHOD'].downcase.to_sym
       path = env['PATH_INFO']
-
-      @routes.find { |route| route.match?(method, path) }
+      if found_route = @routes.find { |route| route.match?(method, path) }
+        env['simpler.params'] = found_route.params
+        found_route
+      end
     end
 
     private

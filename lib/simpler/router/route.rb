@@ -1,9 +1,7 @@
 module Simpler
   class Router
     class Route
-
-      attr_reader :controller, :action
-      attr_accessor :params
+      attr_reader :controller, :action, :params
 
       def initialize(method, path, controller, action)
         @method = method
@@ -23,9 +21,15 @@ module Simpler
         return if request.size != router_path.size
 
         router_path.each_with_index do |part, id|
-          params[sym!(part)] = request[id] if part.include? ':'
+          if part.include?(':') && request[id].to_i.positive?
+            params[sym!(part)] = request[id].to_i
+          elsif part != request[id]
+            return
+          end
         end
       end
+
+      private
 
       def sym!(part)
         part.delete(':').to_sym

@@ -9,7 +9,7 @@ class TestsController < Simpler::Controller
   end
 
   def show
-    @time = "dd"
+    render plain: params[:id]
   end
 
 end

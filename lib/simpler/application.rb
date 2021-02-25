@@ -27,11 +27,13 @@ module Simpler
     end
 
     def call(env)
-      route = @router.route_for(env)
-      controller = route.controller.new(env)
-      action = route.action
-
-      make_response(controller, action)
+      if route = @router.route_for(env)
+        controller = route.controller.new(env)
+        action = route.action
+        make_response(controller, action)
+      else
+        error
+      end
     end
 
     private
@@ -52,6 +54,10 @@ module Simpler
 
     def make_response(controller, action)
       controller.make_response(action)
+    end
+
+    def error
+      [404, {'Content-Type' => 'text/plain'}, ['404: Page not found']]
     end
 
   end
